@@ -3,6 +3,7 @@ dist/
 .env
 .env.*
 !.env.example
-*.log
+npm-debug.log*
+yarn-error.log*
 prisma/*.db
 prisma/migrations/
