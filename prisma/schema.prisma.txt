@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  telegramUserId   String    @unique
+  createdAt        DateTime  @default(now())
+  wallets          Wallet[]
+  orders           Order[]
+  txLogs           TxLog[]
+}
+
+model Wallet {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  address     String
+  verified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([address])
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  type        OrderType
+  amount      String
+  price       String
+  status      OrderStatus @default(PENDING)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model TxLog {
+  id          Int      @id @default(autoincrement())
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+  txHash      String
+  type        String
+  status      String
+  metadata    String?
+  createdAt   DateTime @default(now())
+
+  @@index([txHash])
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  APPROVED
+  COMPLETED
+  CANCELLED
+}
