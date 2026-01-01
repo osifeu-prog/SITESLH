@@ -42,7 +42,7 @@ model WalletBalanceSnapshot {
   id        Int      @id @default(autoincrement())
   wallet    Wallet   @relation(fields: [walletId], references: [id])
   walletId  Int
-  balance   String   // נשמור כ‑string של ETH (לא float)
+  balance   String   // נשמר כטקסט של ETH
   takenAt   DateTime @default(now())
 
   @@index([walletId, takenAt])
@@ -51,7 +51,7 @@ model WalletBalanceSnapshot {
 model MigrationProposal {
   id          Int      @id @default(autoincrement())
   title       String
-  description String   // “תיאור אנושי”
+  description String
   prismaDiff  String   // קטע schema או diff מוצע
   createdAt   DateTime @default(now())
   approvedAt  DateTime?
