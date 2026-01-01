@@ -7,7 +7,7 @@ const client = new OpenAI({ apiKey: CONFIG.openaiKey });
 export async function suggestSchemaChange(description: string) {
   const prompt = `
 אתה מומחה Prisma. אני אתאר שינוי סכימה שאני רוצה.
-תחזיר רק קטע Prisma schema מוצע, בלי טקסט חיצוני.
+תחזיר רק קטע Prisma schema מוצע, בלי טקסט חיצוני, בלי הסברים, רק את הבלוק(ים) הרלוונטיים.
 
 תיאור השינוי:
 ${description}
